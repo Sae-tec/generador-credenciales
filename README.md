@@ -14,33 +14,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// Singleton Configuration
 class ConfiguracionEvento {
-    private static ConfiguracionEvento instancia;
+    private static ConfiguracionEvento instance;
     private String nombreEvento;
     private int duracionHoras;
     private String idioma;
 
     private ConfiguracionEvento() {
-        // Valores predeterminados
+        
         this.nombreEvento = "Conferencia Tech 2025";
         this.duracionHoras = 8;
         this.idioma = "Español";
     }
 
-    public static synchronized ConfiguracionEvento obtenerInstancia() {
-        if (instancia == null) {
-            instancia = new ConfiguracionEvento();
+    public static synchronized ConfiguracionEvento getInstance() {
+        if (instance == null) {
+            instance = new ConfiguracionEvento();
         }
-        return instancia;
+        return instance;
     }
 
-    public String obtenerNombreEvento() { return nombreEvento; }
-    public void establecerNombreEvento(String nombre) { this.nombreEvento = nombre; }
-    public int obtenerDuracionHoras() { return duracionHoras; }
-    public void establecerDuracionHoras(int horas) { this.duracionHoras = horas; }
-    public String obtenerIdioma() { return idioma; }
-    public void establecerIdioma(String idioma) { this.idioma = idioma; }
+    // Getters y Setters
+    public String getNombreEvento() { return nombreEvento; }
+    public void setNombreEvento(String nombre) { this.nombreEvento = nombre; }
+    public int getDuracionHoras() { return duracionHoras; }
+    public void setDuracionHoras(int horas) { this.duracionHoras = horas; }
+    public String getIdioma() { return idioma; }
+    public void setIdioma(String idioma) { this.idioma = idioma; }
 }
+
 
 class CredencialEvento implements Cloneable {
     private String nombre;
@@ -48,48 +51,55 @@ class CredencialEvento implements Cloneable {
     private String rut;
     
     public CredencialEvento() {
-        // Plantilla base
+        
         this.nombre = "[NOMBRE]";
         this.cargo = "[CARGO]";
         this.rut = "[RUT]";
     }
 
     @Override
-    public CredencialEvento clonar() {
+    public CredencialEvento clone() {
         try {
             return (CredencialEvento) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error("Error en la clonación");
+            throw new AssertionError();
         }
     }
 
-    public void establecerNombre(String nombre) { this.nombre = nombre; }
-    public void establecerCargo(String cargo) { this.cargo = cargo; }
-    public void establecerRut(String rut) { this.rut = rut; }
+    
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setCargo(String cargo) { this.cargo = cargo; }
+    public void setRut(String rut) { this.rut = rut; }
 
     @Override
     public String toString() {
-        return "Credencial del Evento:\n" +
+        return "Credencial:\n" +
                "Nombre: " + nombre + "\n" +
                "Cargo: " + cargo + "\n" +
                "RUT: " + rut + "\n" +
-               "Evento: " + ConfiguracionEvento.obtenerInstancia().obtenerNombreEvento() + "\n" +
-               "Duración: " + ConfiguracionEvento.obtenerInstancia().obtenerDuracionHoras() + " horas";
+               "Evento: " + ConfiguracionEvento.getInstance().getNombreEvento() + "\n" +
+               "Duración: " + ConfiguracionEvento.getInstance().getDuracionHoras() + " horas";
     }
 }
 
-public class SistemaPrincipal {
+public class MainSystem {
     private static List<CredencialEvento> credenciales = new ArrayList<>();
     private static CredencialEvento plantilla = new CredencialEvento();
-    private static Scanner lector = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        ConfiguracionEvento configuracion = ConfiguracionEvento.obtenerInstancia();
+        ConfiguracionEvento config = ConfiguracionEvento.getInstance();
         
         while (true) {
-            mostrarMenuPrincipal();
-            int opcion = leerOpcion();
-            
+            System.out.println("\n--- Menú Principal ---");
+            System.out.println("1. Crear nueva credencial");
+            System.out.println("2. Ver todas las credenciales");
+            System.out.println("3. Salir");
+            System.out.print("Selección: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Clear buffer
+
             switch (opcion) {
                 case 1:
                     crearCredencial();
@@ -98,55 +108,35 @@ public class SistemaPrincipal {
                     listarCredenciales();
                     break;
                 case 3:
-                    salirSistema();
+                    System.exit(0);
                 default:
-                    System.out.println("Opción no válida");
+                    System.out.println("Opción inválida");
             }
         }
     }
 
-    private static void mostrarMenuPrincipal() {
-        System.out.println("\n--- Menú de Control ---");
-        System.out.println("1. Generar nueva credencial");
-        System.out.println("2. Mostrar todas las credenciales");
-        System.out.println("3. Salir del sistema");
-        System.out.print("Ingrese su elección: ");
-    }
-
-    private static int leerOpcion() {
-        int opcion = lector.nextInt();
-        lector.nextLine(); // Limpiar buffer
-        return opcion;
-    }
-
     private static void crearCredencial() {
-        CredencialEvento nueva = plantilla.clonar();
+        CredencialEvento nueva = plantilla.clone();
         
-        System.out.print("Nombre completo del participante: ");
-        nueva.establecerNombre(lector.nextLine());
+        System.out.print("Nombre del asistente: ");
+        nueva.setNombre(scanner.nextLine());
         
-        System.out.print("Rol en el evento: ");
-        nueva.establecerCargo(lector.nextLine());
+        System.out.print("Cargo: ");
+        nueva.setCargo(scanner.nextLine());
         
-        System.out.print("Documento de identidad (RUT): ");
-        nueva.establecerRut(lector.nextLine());
+        System.out.print("RUT: ");
+        nueva.setRut(scanner.nextLine());
         
         credenciales.add(nueva);
-        System.out.println("¡Credencial registrada con éxito!");
+        System.out.println("Credencial creada exitosamente!");
     }
 
     private static void listarCredenciales() {
-        System.out.println("\n=== Registro de Credenciales ===");
-        for (CredencialEvento credencial : credenciales) {
-            System.out.println(credencial);
-            System.out.println("----------------------------------");
+        System.out.println("\n--- Credenciales Registradas ---");
+        for (CredencialEvento c : credenciales) {
+            System.out.println(c);
+            System.out.println("----------------------");
         }
-    }
-
-    private static void salirSistema() {
-        System.out.println("Saliendo del sistema...");
-        lector.close();
-        System.exit(0);
     }
 }
 ```
@@ -155,22 +145,23 @@ public class SistemaPrincipal {
 
 ```java
 class ConfiguracionEvento {
-
-    private static ConfiguracionEvento instancia;
-
+    private static ConfiguracionEvento instance;
+    private String nombreEvento;
+    private int duracionHoras;
+    private String idioma;
 
     private ConfiguracionEvento() {
+        
         this.nombreEvento = "Conferencia Tech 2025";
         this.duracionHoras = 8;
         this.idioma = "Español";
     }
 
-
-    public static synchronized ConfiguracionEvento obtenerInstancia() {
-        if (instancia == null) {
-            instancia = new ConfiguracionEvento(); // ← Creación única
+    public static synchronized ConfiguracionEvento getInstance() {
+        if (instance == null) {
+            instance = new ConfiguracionEvento();
         }
-        return instancia;
+        return instance;
     }
 ```
 ---
@@ -178,26 +169,40 @@ class ConfiguracionEvento {
 
 ```java
 class CredencialEvento implements Cloneable {
+    private String nombre;
+    private String cargo;
+    private String rut;
     
-
-    @Override
-    public CredencialEvento clonar() {
-        try {
-            return (CredencialEvento) super.clone(); // ← Clonación nativa
-        } catch (CloneNotSupportedException e) {
-            throw new Error("Error en la clonación");
-        }
-    }
-
-
     public CredencialEvento() {
+        
         this.nombre = "[NOMBRE]";
         this.cargo = "[CARGO]";
         this.rut = "[RUT]";
     }
+
+    @Override
+    public CredencialEvento clone() {
+        try {
+            return (CredencialEvento) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 ```
+---
+## 🖥️ Menú por consola
+---
+![Image](https://github.com/user-attachments/assets/8f1eded3-8638-4c0d-9aeb-e2083e598cae)
 ---
 Diagrama UML
 ---
-![Image](https://github.com/user-attachments/assets/a60f53a8-094e-45d8-a5ad-b4a990d0bbea)
+![Image](https://github.com/user-attachments/assets/7cbc5c46-ed8c-4ca6-83cc-cbd543afe6ac)
+---
+## 📸 Captura del sistema funcionando
+---
+![Image](https://github.com/user-attachments/assets/d08a5bf2-345d-4a48-907e-e8600c9388e3)
+---
+![Image](https://github.com/user-attachments/assets/84277238-a07a-4139-9271-2efd0bcf783d)
+---
+![Image](https://github.com/user-attachments/assets/ef6f4215-2fb8-4c3a-b981-bd3782013b68)
 ---
