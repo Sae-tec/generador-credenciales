@@ -198,8 +198,6 @@ Diagrama UML
 ---
 ![Image](https://github.com/user-attachments/assets/7cbc5c46-ed8c-4ca6-83cc-cbd543afe6ac)
 ---
-## 📸 Captura del sistema funcionando
----
 ## 📸 Ingresando una crendial
 ---
 ![Image](https://github.com/user-attachments/assets/d08a5bf2-345d-4a48-907e-e8600c9388e3)
