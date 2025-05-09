@@ -200,9 +200,15 @@ Diagrama UML
 ---
 ## 📸 Captura del sistema funcionando
 ---
+## 📸 Ingresando una crendial
+---
 ![Image](https://github.com/user-attachments/assets/d08a5bf2-345d-4a48-907e-e8600c9388e3)
 ---
-![Image](https://github.com/user-attachments/assets/84277238-a07a-4139-9271-2efd0bcf783d)
+## 📸 Ingresando y mostrando mas de una credencial
+---
+![Image](https://github.com/user-attachments/assets/1012170e-b696-4347-91ba-5f745ca33dac)
+---
+## 📸 Opcion de salir del programa
 ---
 ![Image](https://github.com/user-attachments/assets/ef6f4215-2fb8-4c3a-b981-bd3782013b68)
 ---
