@@ -164,6 +164,18 @@ class ConfiguracionEvento {
         return instance;
     }
 ```
+✅ Patrón Singleton — Clase ConfiguracionEvento
+
+Aplique el patrón Singleton para asegurarte de que la configuración del evento (nombre, duración e idioma) tenga una única instancia global en toda la aplicación.
+Esto lo lograste mediante:
+
+Un constructor privado, que evita la creación directa de instancias fuera de la clase.
+
+Un método estático getInstance() que crea la instancia solo una vez (lazy initialization) y la reutiliza.
+
+El método está sincronizado (synchronized) para ser seguro en entornos multihilo.
+
+🔁 Uso en el programa: Cada credencial accede a la misma configuración de evento a través de ConfiguracionEvento.getInstance().
 ---
 ## Implementacion de Prototype
 
@@ -189,6 +201,15 @@ class CredencialEvento implements Cloneable {
         }
     }
 ```
+✅ Patrón Prototype — Clase CredencialEvento
+
+Aplique el patrón Prototype para crear credenciales a partir de una plantilla predefinida (plantilla) usando clonación.
+
+La clase CredencialEvento implementa Cloneable y sobrescribe el método clone().
+
+Al crear una nueva credencial, usas plantilla.clone() para copiar la estructura básica y luego personalizas sus datos (nombre, cargo, RUT).
+
+🔁 Uso en el programa: Esto facilita la creación rápida de nuevas credenciales sin tener que construirlas desde cero cada vez.
 ---
 ## 🖥️ Menú por consola
 ---
