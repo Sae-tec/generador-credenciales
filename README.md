@@ -198,4 +198,5 @@ class CredencialEvento implements Cloneable {
 ```
 ---
 Diagrama UML
+---
 ![image](https://github.com/user-attachments/assets/a85c97f4-c4ce-451a-adb0-687d108c4a3a)
